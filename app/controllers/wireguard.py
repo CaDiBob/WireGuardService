@@ -7,7 +7,7 @@ from app.services.configs import WireGuardConfig
 from app.schemas.configs import SWireGuard
 
 logger = Logger('wireguard.log', log_level=logging.INFO)
-pure_yookassa_data = logger.get_logger()
+wg_log = logger.get_logger()
 
 
 class WireGuardController(Controller):
