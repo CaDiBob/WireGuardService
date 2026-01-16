@@ -4,6 +4,6 @@ if __name__ == "__main__":
     service = WireGuardStatsService()
     success = service.get_stats()
     if success:
-        print("WireGuard data successfully saved.")
+        print(f"WireGuard data successfully saved. {success}")
     else:
         print("Failed to save WireGuard data.")

@@ -69,7 +69,8 @@ class DumpParser:
             if len(parts) <= min_count_parts:
                 continue
             pub_key, client = self._parse_line(parts=parts)
-            clients[pub_key] = asdict(client)
+            if client.latest_handshake:
+                clients[pub_key] = asdict(client)
         return clients
 
     def _parse_line(self, parts: list[str]) -> tuple[str, Client]:
