@@ -1,8 +1,8 @@
-from app.services.wg_stats import WireGuardDataService
+from app.services.wg_stats import WireGuardStatsService
 
 if __name__ == "__main__":
-    service = WireGuardDataService()
-    success = service.save()
+    service = WireGuardStatsService()
+    success = service.get_stats()
     if success:
         print("WireGuard data successfully saved.")
     else:

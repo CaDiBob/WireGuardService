@@ -1,5 +1,4 @@
 import subprocess
-import json
 import sys
 import logging
 from dataclasses import dataclass, asdict, field
@@ -93,21 +92,7 @@ class DumpParser:
         )
 
 
-class JsonFileSaver:
-
-    @staticmethod
-    def save(data: dict, path: Path):
-        try:
-            path.parent.mkdir(parents=True, exist_ok=True)
-            with path.open("w", encoding="utf-8") as f:
-                json.dump(data, f, indent=4, ensure_ascii=False)
-            logging.info(f"Успешно! Данные сохранены в {path}")
-        except IOError as e:
-            logging.error(f"Ошибка при записи файла {path}: {e}")
-            raise
-
-
-class WireGuardDataService:
+class WireGuardStatsService:
 
     def __init__(self):
         self.config = ServiceConfig(
@@ -116,13 +101,12 @@ class WireGuardDataService:
         )
         self.output_path = self.config.output_dir / self.config.output_filename
 
-    def save(self) -> bool:
+    def get_stats(self) -> bool:
         raw_output = CommandExecutor.run(self.config.command)
         clients = DumpParser().parse(raw_output)
-        final_data = {
+        stats = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "data": clients
         }
-        JsonFileSaver.save(final_data, self.output_path)
 
-        return True
+        return stats

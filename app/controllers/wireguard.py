@@ -1,9 +1,10 @@
 import logging
 
-from litestar import Controller, post, Request, Response
+from litestar import Controller, get, post, Request, Response
 
 from app.logger import Logger
 from app.services.configs import WireGuardConfig
+from app.services.wg_stats import WireGuardStatsService
 from app.schemas.configs import SWireGuard
 
 logger = Logger('wireguard.log', log_level=logging.INFO)
@@ -27,3 +28,9 @@ class WireGuardController(Controller):
         wireguard = WireGuardConfig(new.ip)
         config = wireguard.create_config()
         return Response(config)
+
+    @get()
+    async def get_stats(self):
+        service = WireGuardStatsService()
+        stats = service.get_stats()
+        return Response(stats)
